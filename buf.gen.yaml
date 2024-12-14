@@ -1,0 +1,28 @@
+version: v2
+managed:
+  enabled: true
+  disable:
+    - module: buf.build/googleapis/googleapis
+  override:
+    - file_option: go_package_prefix
+      value: github.com/bufbuild/buf-tour/gen
+plugins:
+  - remote: buf.build/bufbuild/es
+    out: gen/js
+  - remote: buf.build/protocolbuffers/java
+    out: gen/java
+  - remote: buf.build/grpc/java
+    out: gen/java
+  - protoc_builtin: cpp
+    out: gen/cpp
+  - remote: buf.build/protocolbuffers/go:v1.31.0
+    out: gen/go
+    opt: paths=source_relative
+  - remote: buf.build/grpc/go
+    out: gen/go
+    opt: paths=source_relative
+  - remote: buf.build/connectrpc/go
+    out: gen/go
+    opt: paths=source_relative
+inputs:
+  - directory: proto
