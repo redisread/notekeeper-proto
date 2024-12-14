@@ -14,5 +14,5 @@ jobs:
       - uses: actions/checkout@v4
       - uses: bufbuild/buf-action@v1
         with:
-          exclude_imports: true  # 设置为 true 以排除导入的文件
+          # exclude_imports: true  # 设置为 true 以排除导入的文件
           token: ${{ secrets.BUF_TOKEN }}
