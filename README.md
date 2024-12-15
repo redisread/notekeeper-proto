@@ -3,6 +3,7 @@
 
 
 初始化项目的结构如下：
+```
 notekeeper/
 ├── proto/
 │   ├── notekeeper/
@@ -37,3 +38,4 @@ notekeeper/
 ├── .gitignore
 ├── README.md
 └── LICENSE
+```

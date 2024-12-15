@@ -80,8 +80,38 @@ message DeleteClothingResponse {
   // 通常情况下，删除操作的响应可以不包含任何字段，表示操作成功
 }
 
+message GetClothingRequest {
+  int64 id = 1; // 衣物ID
+  int64 user_id = 2; // 用户ID，用于验证权限
+}
+
+message GetClothingResponse {
+  google.rpc.Status status = 1;
+  Clothing clothing = 2; // 查询到的衣物详情
+}
+
+
+message ListClothingRequest {
+  int64 user_id = 1; // 用户ID
+  ClothingType type = 2; // 可选，按衣物类型筛选
+  repeated Season seasons = 3; // 可选，按季节筛选
+  string color = 4; // 可选，按颜色筛选
+  int32 page_size = 5; // 分页大小
+  string page_token = 6; // 分页标记
+}
+
+message ListClothingResponse {
+  google.rpc.Status status = 1;
+  repeated Clothing clothing = 2; // 查询到的衣物列表
+  string next_page_token = 3; // 下一页的标记
+}
+
+
+
 service CapsuleWardrobeService {
   rpc CreateClothing(CreateClothingRequest) returns (CreateClothingResponse) {}
   rpc UpdateClothing(UpdateClothingRequest) returns (UpdateClothingResponse) {}
   rpc DeleteClothing(DeleteClothingRequest) returns (DeleteClothingResponse) {}
+  rpc GetClothing(GetClothingRequest) returns (GetClothingResponse) {}
+  rpc ListClothing(ListClothingRequest) returns (ListClothingResponse) {}
 }
