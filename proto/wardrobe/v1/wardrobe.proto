@@ -1,0 +1,87 @@
+syntax = "proto3";
+
+package wardrobe.v1;
+
+import "google/type/datetime.proto";
+import "google/rpc/status.proto";
+
+// ClothingType 表示不同类型的衣物。
+enum ClothingType {
+  CLOTHING_TYPE_UNSPECIFIED = 0;
+  CLOTHING_TYPE_TOP = 1; // 上衣
+  CLOTHING_TYPE_BOTTOM = 2; // 下装
+  CLOTHING_TYPE_HAT = 3; // 帽子
+  CLOTHING_TYPE_SOCKS = 4; // 袜子
+  CLOTHING_TYPE_ACCESSORY = 5; // 配饰
+}
+
+// Season 枚举定义季节
+enum Season {
+    SEASON_UNSPECIFIED = 0;
+    SEASON_SPRING = 1;
+    SEASON_SUMMER = 2;
+    SEASON_AUTUMN = 3;
+    SEASON_WINTER = 4;
+}
+
+
+// Clothing 表示衣柜中的一件衣物
+message Clothing {
+    int64 id = 1;
+    int64 user_id = 2;
+    string name = 3;
+    ClothingType type = 4;
+    string color = 5;
+    repeated Season seasons = 6;
+    string image_url = 7;
+    google.type.DateTime update_time = 8;
+    google.type.DateTime create_time = 9;
+}
+
+message CreateClothingRequest {
+  int64 user_id = 1; // 用户ID
+  string name = 2; // 衣物名称
+  ClothingType type = 3; // 衣物类型
+  string color = 4; // 颜色
+  repeated Season seasons = 5; // 适用季节
+  string image_url = 6; // 图片URL
+}
+
+
+message CreateClothingResponse {
+  google.rpc.Status status = 1;
+  Clothing clothing = 2; // 创建的衣物详情
+}
+
+message UpdateClothingRequest {
+  int64 id = 1; // 衣物ID
+  int64 user_id = 2; // 用户ID，可选，用于验证权限
+  string name = 3; // 衣物名称，可选
+  ClothingType type = 4; // 衣物类型，可选
+  string color = 5; // 颜色，可选
+  repeated Season seasons = 6; // 适用季节，可选
+  string image_url = 7; // 图片URL，可选
+}
+
+
+message UpdateClothingResponse {
+  google.rpc.Status status = 1;
+  Clothing clothing = 2; // 更新后的衣物详情
+}
+
+message DeleteClothingRequest {
+  int64 id = 1; // 衣物ID
+  int64 user_id = 2; // 用户ID，可选，用于验证权限
+}
+
+
+message DeleteClothingResponse {
+  google.rpc.Status status = 1;
+  // 通常情况下，删除操作的响应可以不包含任何字段，表示操作成功
+}
+
+service CapsuleWardrobeService {
+  rpc CreateClothing(CreateClothingRequest) returns (CreateClothingResponse) {}
+  rpc UpdateClothing(UpdateClothingRequest) returns (UpdateClothingResponse) {}
+  rpc DeleteClothing(DeleteClothingRequest) returns (DeleteClothingResponse) {}
+}

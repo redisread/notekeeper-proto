@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package common.type.v1;
+
+message Status {
+    int32 code = 1; // 状态码，例如0表示成功，其他表示客户端请求错误等
+    string error_message = 2; // 可选的错误信息，提供更详细的错误描述
+  }
+  

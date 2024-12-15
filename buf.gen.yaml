@@ -5,7 +5,7 @@ managed:
     - module: buf.build/googleapis/googleapis
   override:
     - file_option: go_package_prefix
-      value: github.com/bufbuild/buf-tour/gen
+      value: github.com/bufbuild/notekeeper/gen
 plugins:
   - remote: buf.build/bufbuild/es
     out: gen/js
