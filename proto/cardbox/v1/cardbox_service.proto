@@ -1,0 +1,132 @@
+syntax = "proto3";
+
+package cardbox.v1;
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+import "google/rpc/status.proto";
+
+service CardBoxService {
+    rpc ListCardBoxs(ListCardBoxsRequest) returns (ListCardBoxsResponse) {}
+    rpc GetCardBox(GetCardBoxRequest) returns (GetCardBoxResponse) {}
+    rpc CreateCardBox(CreateCardBoxRequest) returns (CreateCardBoxResponse) {}
+    rpc UpdateCardBox(UpdateCardBoxRequest) returns (UpdateCardBoxResponse) {}
+    rpc DeleteCardBox(DeleteCardBoxRequest) returns (google.protobuf.Empty) {}
+  }
+
+  enum CardBoxType {
+    CARD_BOX_TYPE_UNSPECIFIED = 0;
+    CARD_BOX_TYPE_VIDEO = 1;
+    CARD_BOX_TYPE_AUDIO = 2;
+    CARD_BOX_TYPE_TEXT = 3;
+    CARD_BOX_TYPE_IMAGE = 4;
+    CARD_BOX_TYPE_LINK = 5;
+  }
+  
+  enum CardBoxSubType {
+    CARD_BOX_SUB_TYPE_UNSPECIFIED = 0;
+    
+    // 视频子类型
+    CARD_BOX_SUB_TYPE_MOVIE = 1;
+    CARD_BOX_SUB_TYPE_TV_SHOW = 2;
+    CARD_BOX_SUB_TYPE_SHORT_VIDEO = 3;
+    CARD_BOX_SUB_TYPE_LONG_VIDEO = 4;
+    
+    // 音频子类型
+    CARD_BOX_SUB_TYPE_MUSIC = 5;
+    CARD_BOX_SUB_TYPE_PODCAST = 6;
+    
+    // 文字子类型
+    CARD_BOX_SUB_TYPE_BOOK = 7;
+    CARD_BOX_SUB_TYPE_ARTICLE = 8;
+    CARD_BOX_SUB_TYPE_ESSAY = 9;
+    
+    // 图片子类型
+    CARD_BOX_SUB_TYPE_PHOTO = 10;
+    CARD_BOX_SUB_TYPE_ART = 11;
+    CARD_BOX_SUB_TYPE_WALLPAPER = 12;
+  }
+
+
+  message CardBox {
+    int64 id = 1;
+  
+    int64 creator_id = 2;
+  
+    google.protobuf.Timestamp created_time = 3;
+  
+    google.protobuf.Timestamp updated_time = 4;
+
+    CardBoxType card_box_type = 5;
+
+    CardBoxSubType card_box_sub_type = 6;
+  
+    string content = 7;
+  
+    string link = 8;
+  
+    string title = 9;
+  
+    repeated string tags = 10;
+  
+    string name = 11;
+
+    string description = 12;
+  
+    OpenGraphMetadata og_metadata = 13;
+  
+    message OpenGraphMetadata {
+      string title = 1;
+  
+      string description = 2;
+  
+      string image = 3;
+    }
+  }
+  
+  message ListCardBoxsRequest {}
+  
+  message ListCardBoxsResponse {
+    google.rpc.Status status = 1;
+    repeated CardBox card_box = 2;
+  }
+  
+  message GetCardBoxRequest {
+    int64 id = 1;
+  }
+  
+  message GetCardBoxResponse {
+    google.rpc.Status status = 1;
+    CardBox card_box = 2;
+  }
+
+
+  message CreateCardBoxRequest {
+    CardBox shortcut = 1;
+  }
+  
+
+  message CreateCardBoxResponse {
+    google.rpc.Status status = 1;
+    CardBox card_box = 2;
+  }
+  
+
+  message UpdateCardBoxRequest {
+    CardBox card_box = 1;
+  }
+
+  message UpdateCardBoxResponse {
+    google.rpc.Status status = 1;
+    CardBox card_box = 2;
+  }
+  
+  message DeleteCardBoxRequest {
+    int64 id = 1;
+  }
+  
+  message GetShortcutAnalyticsRequest {
+    int64 id = 1;
+  }
+  
+  

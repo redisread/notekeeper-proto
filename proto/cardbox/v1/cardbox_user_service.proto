@@ -1,0 +1,148 @@
+syntax = "proto3";
+
+package cardbox.v1;
+
+import "google/protobuf/empty.proto";
+import "google/protobuf/timestamp.proto";
+import "google/rpc/status.proto";
+
+service CardBoxUserService {
+    // ListUsers returns a list of users.
+    rpc ListUsers(ListUsersRequest) returns (ListUsersResponse) {
+    }
+    // GetUser returns a user by id.
+    rpc GetUser(GetUserRequest) returns (GetUserResponse) {
+    }
+    // CreateUser creates a new user.
+    rpc CreateUser(CreateUserRequest) returns (CreateUserResponse) {
+    }
+    rpc UpdateUser(UpdateUserRequest) returns (UpdateUserResponse) {
+    }
+    // DeleteUser deletes a user by id.
+    rpc DeleteUser(DeleteUserRequest) returns (DeleteUserResponse) {
+    }
+    // ListUserAccessTokens returns a list of access tokens for a user.
+    rpc ListUserAccessTokens(ListUserAccessTokensRequest) returns (ListUserAccessTokensResponse) {
+    }
+    // CreateUserAccessToken creates a new access token for a user.
+    rpc CreateUserAccessToken(CreateUserAccessTokenRequest) returns (CreateUserAccessTokenResponse) {
+    }
+    // DeleteUserAccessToken deletes an access token for a user.
+    rpc DeleteUserAccessToken(DeleteUserAccessTokenRequest) returns (DeleteUserAccessTokenResponse) {
+    }
+  }
+  
+  message User {
+    int64 id = 1;
+  
+    int32 state = 2;
+  
+    google.protobuf.Timestamp created_time = 3;
+  
+    google.protobuf.Timestamp updated_time = 4;
+  
+    Role role = 6;
+  
+    string email = 7;
+  
+    string nickname = 8;
+  
+    string password = 9;
+  }
+  
+  enum Role {
+    ROLE_UNSPECIFIED = 0;
+  
+    ADMIN = 1;
+  
+    USER = 2;
+  }
+  
+  message ListUsersRequest {}
+  
+  message ListUsersResponse {
+    google.rpc.Status status = 1;
+    repeated User users = 2;
+  }
+  
+  message GetUserRequest {
+    int64 id = 1;
+  }
+
+
+  
+  
+  message CreateUserRequest {
+    User user = 1;
+  }
+  
+  message UpdateUserRequest {
+    User user = 1;
+  }
+  
+  message DeleteUserRequest {
+    int64 id = 1;
+  }
+  
+  message ListUserAccessTokensRequest {
+    // id is the user id.
+    int64 id = 1;
+  }
+  
+  message ListUserAccessTokensResponse {
+    google.rpc.Status status = 1;
+    repeated UserAccessToken access_tokens = 2;
+  }
+  
+  message CreateUserAccessTokenRequest {
+    // id is the user id.
+    int64 id = 1;
+    // description is the description of the access token.
+    string description = 2;
+    // expires_at is the expiration time of the access token.
+    // If expires_at is not set, the access token will never expire.
+    optional google.protobuf.Timestamp expires_at = 3;
+  }
+  
+  message DeleteUserAccessTokenRequest {
+    // id is the user id.
+    int64 id = 1;
+    // access_token is the access token to delete.
+    string access_token = 2;
+  }
+  
+  message UserAccessToken {
+    string access_token = 1;
+    string description = 2;
+    google.protobuf.Timestamp issued_at = 3;
+    google.protobuf.Timestamp expires_at = 4;
+  }
+  
+
+  message GetUserResponse {
+    google.rpc.Status status = 1;
+    User user = 2;
+}
+
+message CreateUserResponse {
+    google.rpc.Status status = 1;
+    User user = 2;
+}
+
+message UpdateUserResponse {
+    google.rpc.Status status = 1;
+    User user = 2;
+}
+
+message DeleteUserResponse {
+    google.rpc.Status status = 1;
+}
+
+message CreateUserAccessTokenResponse {
+    google.rpc.Status status = 1;
+    UserAccessToken access_token = 2;
+}
+
+message DeleteUserAccessTokenResponse {
+    google.rpc.Status status = 1;
+}

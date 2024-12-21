@@ -1,0 +1,67 @@
+syntax = "proto3";
+
+package cardbox.v1;
+
+import "google/protobuf/empty.proto";
+import "cardbox/v1/cardbox_user_service.proto";
+import "google/rpc/status.proto";
+
+service CardBoxAuthService {
+    // GetAuthStatus returns the current auth status of the user.
+    rpc GetAuthStatus(GetAuthStatusRequest) returns (GetAuthStatusResponse) {}
+    // SignIn signs in the user with the given username and password.
+    rpc SignIn(SignInRequest) returns (SignInResponse) {}
+    // SignInWithSSO signs in the user with the given SSO code.
+    rpc SignInWithSSO(SignInWithSSORequest) returns (SignInWithSSOResponse) {}
+    // SignUp signs up the user with the given username and password.
+    rpc SignUp(SignUpRequest) returns (SignUpResponse) { }
+    // SignOut signs out the user.
+    rpc SignOut(SignOutRequest) returns (google.protobuf.Empty) {}
+  }
+  
+  message GetAuthStatusRequest {}
+  
+  message GetAuthStatusResponse {
+    google.rpc.Status status = 1;
+    User user = 2;
+  }
+
+  message SignInRequest {
+    string email = 1;
+    string password = 2;
+  }
+
+  message SignInResponse {
+    google.rpc.Status status = 1;
+    User user = 2;
+  }
+  
+  
+  message SignUpRequest {
+    string email = 1;
+    string nickname = 2;
+    string password = 3;
+  }
+
+  message SignUpResponse {
+    google.rpc.Status status = 1;
+    User user = 2;
+  }
+  
+  
+  message SignInWithSSORequest {
+    // The id of the SSO provider.
+    string idp_id = 1;
+    // The code to sign in with.
+    string code = 2;
+    // The redirect URI.
+    string redirect_uri = 3;
+  }
+
+  message SignInWithSSOResponse {
+    google.rpc.Status status = 1;
+    User user = 2;
+  }
+  
+  message SignOutRequest {}
+  

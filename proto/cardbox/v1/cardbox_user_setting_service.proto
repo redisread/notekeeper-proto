@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+package cardbox.v1;
+import "google/rpc/status.proto";
+
+service CardBoxUserSettingService {
+    // GetUserSetting returns the user setting.
+    rpc GetUserSetting(GetUserSettingRequest) returns (GetUserSettingResponse) {
+    }
+    // UpdateUserSetting updates the user setting.
+    rpc UpdateUserSetting(UpdateUserSettingRequest) returns (UpdateUserSettingResponse) {
+    }
+  }
+  
+  message UserSetting {
+    int64 user_id = 1;
+  
+    GeneralSetting general = 2;
+  
+    AccessTokensSetting access_tokens = 3;
+  
+    message GeneralSetting {
+      string locale = 1;
+      string color_theme = 2;
+    }
+  
+    message AccessTokensSetting {
+      message AccessToken {
+        // The access token is a JWT token, including expiration time, issuer, etc.
+        string access_token = 1;
+        // A description for the access token.
+        string description = 2;
+      }
+      repeated AccessToken access_tokens = 1; // Nested repeated field
+    }
+  }
+  
+  message GetUserSettingRequest {
+    // id is the user id.
+    int64 id = 1;
+  }
+  
+  message UpdateUserSettingRequest {
+    // id is the user id.
+    int64 id = 1;
+  
+    // user_setting is the user setting to update.
+    UserSetting user_setting = 2;
+  }
+  
+
+message GetUserSettingResponse {
+    google.rpc.Status status = 1;
+    UserSetting user_setting = 2;
+}
+
+message UpdateUserSettingResponse {
+    google.rpc.Status status = 1;
+    UserSetting user_setting = 2;
+}
